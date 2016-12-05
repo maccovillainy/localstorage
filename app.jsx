@@ -1,7 +1,7 @@
 import  React  from 'react';
 import  ReactDOM  from 'react-dom';
 import  ee  from 'event-emitter';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory, Link } from 'react-router';
 
 let app = document.querySelector('#hello'),
   emitter = ee({}), 
@@ -166,6 +166,8 @@ class Board extends React.Component{
   }
 }
 
+///////////////
+
 //////////////////////////////////////////////////////////
 
 class MainApp extends React.Component{
@@ -218,16 +220,38 @@ class MainApp extends React.Component{
         </div>
         <input ref='boardName' />
         <button onClick={this.add.bind(this)}>AddBoard</button>
+        <p><Link to="/about" activeStyle={{ color: 'red' }}>About</Link></p>
+        <p><Link to="/repos">Repos</Link></p>
+        {this.props.children}
       </div>
     );
   }
 }
 
 ////////////////////////////////////////////
+class About extends React.Component{
+  render(){
+    return(
+      <h1>Hi</h1>
+      )
+  }
+}
+class Repos extends React.Component{
+  render(){
+    return(
+      <h1>Repos</h1>
+      )
+  }
+}
+
+////////////////////////////////////////////
 
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={MainApp}/>
+  <Router history={hashHistory}>
+    <Route path="/" component={MainApp}>
+      <Route path='/repos' component={Repos} />
+      <Route path='/about' component={About} />
+    </Route>
   </Router>
   ,app
 );
